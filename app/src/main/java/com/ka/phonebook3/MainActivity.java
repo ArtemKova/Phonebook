@@ -72,28 +72,14 @@ public class MainActivity extends AppCompatActivity {
 //Создаем объект адаптера и передаем ему список данных
         ContactAdapter contactAdapter = new ContactAdapter(contacts);
         //передаем в RecyclerView наш объект адаптера с данными
-//        Collections.sort((List) contactAdapter, new Comparator() {
-//                    @Override
-//                    public int compare(Object o1, Object o2) {
-//                        return 0;
-//            }
-//            @Override
-//            public int compare(final Group object1, final Group object2) {
-//                String obj1 =object1.getName();
-//                String obj2 =object2.getName();
-//                return obj1.compareTo(obj2);
-//            }
-//        });
+
         recyclerView.setAdapter(contactAdapter);
 
     }
     @SuppressLint("ResourceType")
     private void getContacts(){
 int i = 0;
-//        Bitmap bp = BitmapFactory.decodeResource(context.getResources(),
-//
-//                R.drawable.contact_default_picture);
-//
+
 
 
 
@@ -108,8 +94,7 @@ int i = 0;
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 contactNumber =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cursor,);
-//                return BitmapFactory.decodeStream(input);
+
                 img =
                         cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_ID));
                 im =
@@ -164,8 +149,7 @@ int i = 0;
         return BitmapFactory.decodeStream(input);
     }
     public boolean checkPermission() {
-//            int CallPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
-//                    Manifest.permission.CALL_PHONE);
+//
         int ContactPermissionResult = ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.READ_CONTACTS);
         return  ContactPermissionResult == PackageManager.PERMISSION_GRANTED;
@@ -197,9 +181,7 @@ int i = 0;
                     } else {
                         Toast.makeText(MainActivity.this,
                                 "Permission denied", Toast.LENGTH_LONG).show();
-                        // disable the call button.//
-//                            callButton.setEnabled(false);
-//                        contactsButton.setEnabled(false);
+
                     }
                     break;
                 }
