@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -20,9 +21,14 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.acl.Group;
 import java.sql.Blob;
@@ -38,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     Cursor cursor;
     String name, contactNumber;
     int img;
-    Number im;
+    Bitmap selectedImage;
+   String im;
     ArrayList<PhoneD> contacts = new ArrayList<PhoneD>();
     ArrayAdapter<String> adapter;
     @Override
@@ -78,7 +85,11 @@ public class MainActivity extends AppCompatActivity {
 //Создаем объект адаптера и передаем ему список данных
         ContactAdapter contactAdapter = new ContactAdapter(contacts);
         //передаем в RecyclerView наш объект адаптера с данными
-//        Collections.sort((List<Group>) contactAdapter, new Comparator<Group>() {
+//        Collections.sort((List) contactAdapter, new Comparator() {
+//                    @Override
+//                    public int compare(Object o1, Object o2) {
+//                        return 0;
+//            }
 //            @Override
 //            public int compare(final Group object1, final Group object2) {
 //                String obj1 =object1.getName();
@@ -89,11 +100,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(contactAdapter);
 
     }
+    @SuppressLint("ResourceType")
     private void getContacts(){
+int i = 0;
+//        Bitmap bp = BitmapFactory.decodeResource(context.getResources(),
+//
+//                R.drawable.contact_default_picture);
+//
+
+
+
+
+//        Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(address));
         cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
+//                i++;
                 name =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                 contactNumber =
@@ -101,12 +124,29 @@ public class MainActivity extends AppCompatActivity {
 //                InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cursor,);
 //                return BitmapFactory.decodeStream(input);
                 img =
-                        cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+                        cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_ID));
                 im =
-                        cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_THUMBNAIL_URI));
+                Uri catURI;
+                if (img==0){
+                    img = (R.drawable.net_foto);
+                    catURI = Uri.parse((""+img));
+                }else{
 
-                contacts.add(new PhoneD(img,name+"" , contactNumber+""));
+                catURI = Uri.parse(""+im);}
+                System.out.println(img +"   "+im);
+            try {
+                InputStream imageStream = getContentResolver().openInputStream(catURI);
+                 selectedImage = BitmapFactory.decodeStream(imageStream);
 
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+
+
+                contacts.add(new PhoneD(selectedImage,name+"" , contactNumber+""));
+                    selectedImage = null;
                     }
 
                 }
@@ -114,6 +154,19 @@ public class MainActivity extends AppCompatActivity {
             cursor.close();
         }
 
+        Collections.sort(contacts, new Comparator() {
+            @Override
+            public int compare(Object o1, Object o2) {
+                return 0;
+            }
+
+//            @Override
+//            public int compare(final Group object1, final Group object2) {
+//                String obj1 =object1.getName();
+//                String obj2 =object2.getName();
+//                return obj1.compareTo(obj2);
+//            }
+        });
     }
 
 
@@ -165,4 +218,5 @@ public class MainActivity extends AppCompatActivity {
                 }
         }
     }
+
 }

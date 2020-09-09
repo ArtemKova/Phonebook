@@ -1,17 +1,19 @@
 package com.ka.phonebook3;
 
+import android.graphics.Bitmap;
+
 public class PhoneD {
-    private int img;
+    private Bitmap img;
     private String name_contact;
     private String number_contact;
 
-    public PhoneD(int img, String name_contact, String number_contact){
+    public PhoneD(Bitmap img, String name_contact, String number_contact){
         this.img = img;
         this.name_contact = name_contact;
         this.number_contact = number_contact;
     }
 
-    public int getImg(){
+    public Bitmap getImg(){
         return this.img;
     }
 

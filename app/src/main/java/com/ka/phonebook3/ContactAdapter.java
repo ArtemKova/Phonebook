@@ -29,7 +29,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     public void onBindViewHolder(@NonNull ContactViewHolder holder, int position) {
         holder.number_contact.setText(contacts.get(position).getNumber_contact());
         holder.name_contact.setText(contacts.get(position).getName_contact());
-        holder.img.setImageResource(contacts.get(position).getImg());
+        holder.img.setImageBitmap(contacts.get(position).getImg());
 
     }
 
