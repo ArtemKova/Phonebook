@@ -67,20 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //        ArrayList<PhoneD> contacts = new ArrayList<PhoneD>();
         getContacts();
         
-//        cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-//                null, null, null, null);
-//        if (cursor != null) {
-//            while (cursor.moveToNext()) {
-//                name =
-//                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-//                contactNumber =
-//                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-//                contacts.add(new PhoneD(R.drawable.ic_launcher_background,name+"" , contactNumber+""));
-//            }
-//        }
-//        if (cursor != null) {
-//            cursor.close();
-//        }
+
 
 //Создаем объект адаптера и передаем ему список данных
         ContactAdapter contactAdapter = new ContactAdapter(contacts);
